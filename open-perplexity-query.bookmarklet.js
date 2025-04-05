@@ -1,0 +1,1 @@
+javascript:(()=>{var n=window.location.href,n=encodeURIComponent(n);window.open("https://www.perplexity.ai/?q=".concat(n),"_blank")})();
