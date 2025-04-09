@@ -1,28 +1,33 @@
 # Active Context
 
 ## Current Focus
-メモリバンクの整備とドキュメントの最新化。  
-TypeScript製ブックマークレットの開発・管理体制の確立。
+YouTube字幕コピーBookmarkletの開発・ビルド・動作検証完了。  
+メモリバンクの最新化。
 
 ## Recent Changes
-- メモリバンクの初期化と全ファイルのテンプレート作成
-- `projectbrief.md` 〜 `techContext.md` まで内容を最新化
+- `src/youtube-caption-copy.ts` を新規作成
+- async/awaitを使わずPromiseチェーンに書き換え
+- `make` でビルド成功
+- ユーザーによる動作確認で**正常動作を確認済み**
+- メモリバンクの全ファイルを更新
 
 ## Next Steps
-- 新規ブックマークレットの追加
-- 既存コードの改善や整理
-- ビルド・配布フローの改善があれば対応
+- 必要に応じて字幕コピーBookmarkletのUI改善や多言語対応
+- 他のブックマークレットの追加・改善
+- プロジェクトの拡張
 
 ## Active Decisions & Considerations
-- 依存は最小限に抑える方針
-- TypeScriptで型安全性を確保
-- Makefileでシンプルなビルドを維持
+- async/awaitは使わずES5互換を優先
+- 依存は最小限に抑える
+- YouTubeの仕様変更に備え柔軟に対応できる設計
 
 ## Important Patterns & Preferences
-- 各ブックマークレットは独立したTypeScriptファイル
-- 圧縮・難読化済みのコードを生成
-- ES5ターゲットで幅広い互換性を確保
+- TypeScript + Makefileでシンプルなビルド
+- fetchとClipboard APIを活用
+- Promiseチェーンで非同期処理
 
 ## Learnings & Insights
-- Makefileとnpxの組み合わせで依存管理が容易
-- TypeScriptにより保守性・安全性が向上
+- YouTubeの字幕はJSONで取得可能
+- async/awaitはES5ターゲットでは使えないため注意
+- Bookmarkletは即時関数で完結させるのが安全
+- **ユーザーによる実機検証で正常動作を確認できた**
