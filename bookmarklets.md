@@ -8,12 +8,10 @@ javascript:(()=>{try{var t,r,a=window.location.href.match(/\/(?:dp|gp\/product|p
 ```
 
 ## amazon-title-and-url-copy.bookmarklet.js
-<button onclick="navigator.clipboard.writeText(`javascript:(()=>{try{var t,r,o,a,c,e=window.location.href.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})/);e?(t=e[1],r="https://www.amazon.co.jp/dp/".concat(t),(o=document.getElementById("productTitle"))?(a=o.innerText.trim(),c="".concat(a,"
-").concat(r),navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(c).then(function(){return alert("Copied!")}).catch(function(){return alert("Failed to copy")}):window.prompt("Copy this:",c)):alert("商品タイトルが見つかりませんでした")):alert("ASINが見つかりませんでした")}catch(t){alert("Error: ".concat(t.message))}})();`);">コピー</button>
+<button onclick="navigator.clipboard.writeText(`javascript:(()=>{try{var t,r,o,a,c,e=window.location.href.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})/);e?(t=e[1],r="https://www.amazon.co.jp/dp/".concat(t),(o=document.getElementById("productTitle"))?(a=o.innerText.trim(),c="".concat(a,"\n").concat(r),navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(c).then(function(){return alert("Copied!")}).catch(function(){return alert("Failed to copy")}):window.prompt("Copy this:",c)):alert("商品タイトルが見つかりませんでした")):alert("ASINが見つかりませんでした")}catch(t){alert("Error: ".concat(t.message))}})();`);">コピー</button>
 
 ```javascript
-javascript:(()=>{try{var t,r,o,a,c,e=window.location.href.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})/);e?(t=e[1],r="https://www.amazon.co.jp/dp/".concat(t),(o=document.getElementById("productTitle"))?(a=o.innerText.trim(),c="".concat(a,"
-").concat(r),navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(c).then(function(){return alert("Copied!")}).catch(function(){return alert("Failed to copy")}):window.prompt("Copy this:",c)):alert("商品タイトルが見つかりませんでした")):alert("ASINが見つかりませんでした")}catch(t){alert("Error: ".concat(t.message))}})();
+javascript:(()=>{try{var t,r,o,a,c,e=window.location.href.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})/);e?(t=e[1],r="https://www.amazon.co.jp/dp/".concat(t),(o=document.getElementById("productTitle"))?(a=o.innerText.trim(),c="".concat(a,"\n").concat(r),navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(c).then(function(){return alert("Copied!")}).catch(function(){return alert("Failed to copy")}):window.prompt("Copy this:",c)):alert("商品タイトルが見つかりませんでした")):alert("ASINが見つかりませんでした")}catch(t){alert("Error: ".concat(t.message))}})();
 ```
 
 ## open-chatgpt-query.bookmarklet.js

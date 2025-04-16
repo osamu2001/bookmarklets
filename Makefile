@@ -30,7 +30,11 @@ bookmarklet-md: $(BOOKMARKLETS)
 	  code=$$(cat $$f); \
 	  echo "## $$name" >> $(BOOKMARKLET_MD); \
 	  echo '<button onclick="navigator.clipboard.writeText(`'"$$code"'`);">コピー</button>' >> $(BOOKMARKLET_MD); \
-	  echo '\n```javascript\n'"$$code"'\n```\n' >> $(BOOKMARKLET_MD); \
+	  echo "" >> $(BOOKMARKLET_MD); \
+	  echo '```javascript' >> $(BOOKMARKLET_MD); \
+	  echo "$$code" >> $(BOOKMARKLET_MD); \
+	  echo '```' >> $(BOOKMARKLET_MD); \
+	  echo "" >> $(BOOKMARKLET_MD); \
 	done
 
 .PHONY: all clean
