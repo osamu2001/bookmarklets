@@ -10,7 +10,7 @@ BOOKMARKLETS=$(patsubst $(SRC_DIR)/%.ts,$(DIST_DIR)/%.bookmarklet.js,$(TS_FILES)
 BOOKMARKLET_MD=bookmarklets.md
 
 # タスク
-all: $(DIST_DIR) $(BOOKMARKLETS) bookmarklet-md
+all: $(DIST_DIR) $(BOOKMARKLETS) bookmarklets.md
 
 # distディレクトリがなければ作成
 $(DIST_DIR):
@@ -23,7 +23,10 @@ $(DIST_DIR)/%.bookmarklet.js: $(SRC_DIR)/%.ts
 clean:
 	rm -rf $(DIST_DIR)
 
-bookmarklet-md:
+bookmarklets.md: $(BOOKMARKLETS) scripts/gen-bookmarklet-md.js
 	node scripts/gen-bookmarklet-md.js
+
+bookmarklet-md: bookmarklets.md
+	@true
 
 .PHONY: all clean
