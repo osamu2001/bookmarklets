@@ -1,71 +1,83 @@
 /**
- * Twitterのポスト本文をクリップボードにコピーするブックマークレット
- * Clipboard APIを使った非同期コピー処理を導入し、コピー失敗時は手動コピー案内を表示
+ * Twitterのツイートコピー機能とChatGPT遷移機能を統合したブックマークレット
+ * ES5互換でPromiseやasync/awaitを使わずに実装
  */
-(() => {
+(function() {
     try {
-        const articleElements = document.querySelectorAll('article[data-testid="tweet"]');
-        console.log('articleElements count:', articleElements.length);
-
+        // Twitterのツイート要素を取得
+        var articleElements = document.querySelectorAll('article[data-testid="tweet"]');
         if (articleElements.length === 0) {
-            console.log('ツイートが見つかりませんでした');
+            alert('ツイートが見つかりませんでした。Twitterのツイート上で実行してください。');
             return;
         }
 
-        const mainArticle = articleElements[0];
-        const tweetTextElement = mainArticle.querySelector('[data-testid="tweetText"]');
-        console.log('tweetTextElement:', tweetTextElement);
-
+        var mainArticle = articleElements[0];
+        var tweetTextElement = mainArticle.querySelector('[data-testid="tweetText"]');
         if (!tweetTextElement) {
-            console.log('ツイートのテキストが見つかりませんでした');
+            alert('ツイートのテキストが見つかりませんでした。');
             return;
         }
 
-        const userNameElement = mainArticle.querySelector('div[dir="ltr"] > span');
-        const userName = userNameElement ? userNameElement.textContent : '不明なユーザー';
-        console.log('userName:', userName);
+        var userNameElement = mainArticle.querySelector('div[dir="ltr"] > span');
+        var userName = userNameElement ? userNameElement.textContent : '不明なユーザー';
 
-        const timeElement = mainArticle.querySelector('time');
-        const timeText = timeElement ? timeElement.getAttribute('datetime') : '不明な日時';
-        console.log('timeText:', timeText);
+        var timeElement = mainArticle.querySelector('time');
+        var timeText = timeElement ? timeElement.getAttribute('datetime') : '不明な日時';
 
-        const urlElement = mainArticle.querySelector('a[href*="/status/"]') as HTMLAnchorElement | null;
-        const url = urlElement ? urlElement.href : '不明なURL';
-        console.log('url:', url);
+        var urlElement = mainArticle.querySelector('a[href*="/status/"]');
+        var url = (urlElement && urlElement.tagName === 'A') ? urlElement.getAttribute('href') : '不明なURL';
 
-        const tweetText = tweetTextElement.textContent || '';
-        console.log('tweetText:', tweetText);
+        var tweetText = tweetTextElement.textContent || '';
 
-        const copyText = `発言者: ${userName}\n日時: ${timeText}\nURL: ${url}\n本文:\n${tweetText}`;
+        var copyText = '発言者: ' + userName + '\n日時: ' + timeText + '\nURL: ' + url + '\n本文:\n' + tweetText;
 
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(copyText).then(() => {
-                console.log('ツイートをコピーしました');
-            }).catch(err => {
-                console.error('Clipboard APIでのコピーに失敗しました:', err);
-                alert('コピーに失敗しました。テキストを手動でコピーしてください:\n\n' + copyText);
-            });
-        } else {
-            // Clipboard API非対応の場合のフォールバック
-            const textarea = document.createElement('textarea');
-            textarea.value = copyText;
+        // クリップボードにコピーするフォールバック関数
+        const copyToClipboardFallback = (text: string) => {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
             textarea.style.position = 'fixed';
             textarea.style.top = '-9999px';
             textarea.style.left = '-9999px';
             document.body.appendChild(textarea);
             textarea.focus();
             textarea.setSelectionRange(0, textarea.value.length);
-            const successful = document.execCommand('copy');
+            var successful = document.execCommand('copy');
             document.body.removeChild(textarea);
+            return successful;
+        }
 
-            if (successful) {
-                console.log('ツイートをコピーしました（フォールバック）');
+        // Clipboard APIが使えれば使い、なければフォールバック
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(copyText).then(function() {
+                alert('ツイートをコピーしました。ChatGPT検索ページに遷移します。');
+                var encodedText = encodeURIComponent(copyText);
+                var targetUrl = 'https://chatgpt.com/?model=gpt-4o&q=' + encodedText;
+                window.open(targetUrl, '_blank');
+            }).catch(function(err) {
+                console.error('Clipboard APIでのコピーに失敗しました:', err);
+                var fallbackSuccess = copyToClipboardFallback(copyText);
+                if (fallbackSuccess) {
+                    alert('ツイートをコピーしました（フォールバック）。ChatGPT検索ページに遷移します。');
+                    var encodedText = encodeURIComponent(copyText);
+                    var targetUrl = 'https://chatgpt.com/?model=gpt-4o&q=' + encodedText;
+                    window.open(targetUrl, '_blank');
+                } else {
+                    alert('コピーに失敗しました。テキストを手動でコピーしてください:\n\n' + copyText);
+                }
+            });
+        } else {
+            var fallbackSuccess = copyToClipboardFallback(copyText);
+            if (fallbackSuccess) {
+                alert('ツイートをコピーしました（フォールバック）。ChatGPT検索ページに遷移します。');
+                var encodedText = encodeURIComponent(copyText);
+                var targetUrl = 'https://chatgpt.com/?model=gpt-4o&q=' + encodedText;
+                window.open(targetUrl, '_blank');
             } else {
                 alert('コピーに失敗しました。テキストを手動でコピーしてください:\n\n' + copyText);
             }
         }
     } catch (error) {
         console.error('エラーが発生しました:', error);
-        alert('エラーが発生しました');
+        alert('エラーが発生しました。');
     }
 })();
