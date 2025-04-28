@@ -12,10 +12,22 @@ javascript:(()=>{try{var t,r,a=window.location.href.match(/\/(?:dp|gp\/product|p
 javascript:(()=>{try{var t,r,o,a,c,e=window.location.href.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})/);e?(t=e[1],r="https://www.amazon.co.jp/dp/".concat(t),(o=document.getElementById("productTitle"))?(a=o.innerText.trim(),c="".concat(a,"\n").concat(r),navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(c).then(function(){return alert("Copied!")}).catch(function(){return alert("Failed to copy")}):window.prompt("Copy this:",c)):alert("商品タイトルが見つかりませんでした")):alert("ASINが見つかりませんでした")}catch(t){alert("Error: ".concat(t.message))}})();
 ```
 
+## copy-twitter-post.bookmarklet.js
+
+```javascript
+javascript:(()=>{try{var e,t,o,l,n,c,r,a,i,s,d,u,g=document.querySelectorAll('article[data-testid="tweet"]');console.log("articleElements count:",g.length),0===g.length?console.log("ツイートが見つかりませんでした"):(t=(e=g[0]).querySelector('[data-testid="tweetText"]'),console.log("tweetTextElement:",t),t?(l=(o=e.querySelector('div[dir="ltr"] > span'))?o.textContent:"不明なユーザー",console.log("userName:",l),c=(n=e.querySelector("time"))?n.getAttribute("datetime"):"不明な日時",console.log("timeText:",c),a=(r=e.querySelector('a[href*="/status/"]'))?r.href:"不明なURL",console.log("url:",a),i=t.textContent||"",console.log("tweetText:",i),s="発言者: ".concat(l,"\n日時: ").concat(c,"\nURL: ").concat(a,"\n本文:\n").concat(i),navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(s).then(function(){console.log("ツイートをコピーしました")}).catch(function(e){console.error("Clipboard APIでのコピーに失敗しました:",e),alert("コピーに失敗しました。テキストを手動でコピーしてください:\n\n"+s)}):((d=document.createElement("textarea")).value=s,d.style.position="fixed",d.style.top="-9999px",d.style.left="-9999px",document.body.appendChild(d),d.focus(),d.setSelectionRange(0,d.value.length),u=document.execCommand("copy"),document.body.removeChild(d),u?console.log("ツイートをコピーしました（フォールバック）"):alert("コピーに失敗しました。テキストを手動でコピーしてください:\n\n"+s))):console.log("ツイートのテキストが見つかりませんでした"))}catch(e){console.error("エラーが発生しました:",e),alert("エラーが発生しました")}})();
+```
+
 ## open-chatgpt-query.bookmarklet.js
 
 ```javascript
 javascript:(()=>{var o=window.location.href,o=encodeURIComponent(o);window.open("https://chat.openai.com/?model=gpt-4o&q=".concat(o),"_blank")})();
+```
+
+## open-gemini-query.bookmarklet.js
+
+```javascript
+
 ```
 
 ## open-perplexity-query.bookmarklet.js
