@@ -25,14 +25,14 @@
         var timeText = timeElement ? timeElement.getAttribute('datetime') : '不明な日時';
 
         var urlElement = mainArticle.querySelector('a[href*="/status/"]');
-        var url = (urlElement && urlElement.tagName === 'A') ? urlElement.getAttribute('href') : '不明なURL';
+        var url = (urlElement && urlElement.tagName === 'A') ? window.location.origin + urlElement.getAttribute('href') : '不明なURL';
 
         var tweetText = tweetTextElement.textContent || '';
 
-        // 改行を正しく扱うためにテキストを整形
-        var normalizedTweetText = tweetText.replace(/\r\n|\r|\n/g, '\\n');
-
-        var copyText = '発言者: ' + userName + '\\n日時: ' + timeText + '\\nURL: ' + url + '\\n本文:\\n' + normalizedTweetText;
+        // 項目間の改行を明確にし、本文の改行はそのままにする
+        // 項目間の改行を明確にし、本文の改行はエスケープして正しく扱う
+        var normalizedTweetText = tweetText.replace(/\r\n|\r|\n/g, '\n');
+        var copyText = '発言者: ' + userName + '\n\n日時: ' + timeText + '\n\nURL: ' + url + '\n\n本文:\n' + normalizedTweetText;
 
         // クリップボードにコピーするフォールバック関数
         var copyToClipboardFallback = function(text) {
